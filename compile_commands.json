@@ -1,0 +1,58 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-Wstrict-prototypes",
+      "-Wfloat-equal",
+      "-Wmissing-declarations",
+      "-Wmissing-include-dirs",
+      "-Wmissing-prototypes",
+      "-Wredundant-decls",
+      "-Wunreachable-code",
+      "-g",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Ilib",
+      "-c",
+      "-I",
+      "/opt/homebrew/include",
+      "-o",
+      "bin/main.o",
+      "src/main.c"
+    ],
+    "directory": "/Users/mdurcan/personal/git_projects/tools/graphics",
+    "file": "/Users/mdurcan/personal/git_projects/tools/graphics/src/main.c",
+    "output": "/Users/mdurcan/personal/git_projects/tools/graphics/bin/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-Wstrict-prototypes",
+      "-Wfloat-equal",
+      "-Wmissing-declarations",
+      "-Wmissing-include-dirs",
+      "-Wmissing-prototypes",
+      "-Wredundant-decls",
+      "-Wunreachable-code",
+      "-g",
+      "-I/opt/homebrew/include/SDL2",
+      "-D_THREAD_SAFE",
+      "-Ilib",
+      "-c",
+      "-I",
+      "/opt/homebrew/include",
+      "-o",
+      "bin/glad.o",
+      "lib/glad.c"
+    ],
+    "directory": "/Users/mdurcan/personal/git_projects/tools/graphics",
+    "file": "/Users/mdurcan/personal/git_projects/tools/graphics/lib/glad.c",
+    "output": "/Users/mdurcan/personal/git_projects/tools/graphics/bin/glad.o"
+  }
+]

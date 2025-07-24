@@ -1,63 +1,33 @@
-#include "background.h"
-#include "c-lib/time.h"
-#include "img.h"
-#include "sprites.h"
-#include "state.h"
+#include <glad/glad.h>
+#include <stdio.h>
 
-state_t state;
+#include "c-lib/misc.h"
+#define SDL_MAIN_HANDLED
+#include <SDL2/SDL.h>
 
-int main() {
-  initialize_state(&state, "window");
-  sprites_init(&state.font_sheet, &state, "res/font.png", 8, 8, 3.0f);
-  sprites_init(&state.bg_sheet, &state, "res/bg.png", 8, 8, 4.0f);
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
-  build_levels();
-  set_level(&state, 0);
+int main(void) {
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
-  state.quit = false;
-  SDL_Event ev;
+  ASSERT(!SDL_Init(SDL_INIT_VIDEO), "failed SDL_Init: %s\n", SDL_GetError());
 
-  const char* msg =
-      "abcdefghijklmnopqrstuvwxyz"
-      "\nABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      "\n0123456789"
-      "\n!@#$%^&*()_+="
-      "\n,./<>?;':\"[]";
+  SDL_Window* window = SDL_CreateWindow(
+      "window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
+      SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+  ASSERT(window, "failed to create sdl window: %s\n", SDL_GetError());
 
-  while (!state.quit) {
-    while (SDL_PollEvent(&ev)) {
-      switch (ev.type) {
-        case SDL_QUIT: state.quit = true; break;
-      }
-    }
+  SDL_GL_CreateContext(window);
+  ASSERT(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress),
+         "failed to load GL: %s\n", SDL_GetError());
 
-    float t = 10.0f + (cosf(time_s()) * 10.0f);
+  printf("OpenGL Loaded\n");
+  printf("Vendor:   %s\n", glGetString(GL_VENDOR));
+  printf("Renderer: %s\n", glGetString(GL_RENDERER));
+  printf("Version:  %s\n", glGetString(GL_VERSION));
 
-    if ((t > 10.0f && state.current_level == 0) ||
-        (t < 10.0f && state.current_level == 1)) {
-      set_level(&state, state.current_level == 0 ? 1 : 0);
-    }
-
-    fv2 a_pos = {.x = t, .y = t};
-    fv2 b_pos = {.x = t, .y = a_pos.y + 8.0f};
-
-    push_font_ch(&state.font_sheet, 'A', a_pos);
-    push_font_str(&state.font_sheet, msg, b_pos);
-    push_background(&state.bg_sheet);
-    push_level(&state);
-
-    SDL_SetRenderDrawColor(state.renderer, 0x00, 0x00, 0x00, 0xFF);
-    SDL_RenderClear(state.renderer);
-    render_level(&state);
-    render_batch(&state, &state.bg_sheet, true);
-    render_batch(&state, &state.font_sheet, true);
-    SDL_RenderPresent(state.renderer);
-  }
-
-  destroy_levels(&state);
-  destroy_sheet(&state.font_sheet);
-  destroy_sheet(&state.bg_sheet);
-  SDL_DestroyRenderer(state.renderer);
-  SDL_DestroyWindow(state.window);
-  SDL_Quit();
+  return 0;
 }
