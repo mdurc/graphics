@@ -11,7 +11,7 @@ WARNINGS 	+= -Wmissing-prototypes -Wredundant-decls -Wunreachable-code
 CFLAGS 		:= $(WARNINGS) -g -MMD -MP `sdl2-config --cflags`
 
 INCFLAGS 	:= $(addprefix -I,$(LIB_DIR))
-LDFLAGS 	:= `sdl2-config --libs` -lm
+LDFLAGS 	:= `sdl2-config --libs` -lm -lglfw
 
 SRC_FILES := $(shell find $(SRC_DIR) $(LIB_DIR) -name '*.c')
 OBJ_FILES := $(patsubst $(LIB_DIR)/%.c,$(BIN_DIR)/%.o, \

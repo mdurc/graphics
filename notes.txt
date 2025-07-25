@@ -1,0 +1,62 @@
+I want to establish some type of outline for this project, as in the past I tend to just wildly expand the code and its structure without any reason, leading to a big mess in the end.
+
+
+Features:
+- Easy window creation
+- Keyboard and mouse input handling
+- Audio
+- Particle effects
+- Sprite sheets with sprite frames
+- Entity structs
+- Collisions
+
+Use cases:
+- Any type of 2d game. Thus the engine should be capable of a variety of use cases.
+  - Top down, platformer, etc.
+
+src/
+- main.c : initializing the engine and starts the engine's game loop, handles the application lifecycle
+
+core/
+- engine.c/h : Engine bootstrap, game loop, state machine
+- windowing.c/h : SDL windowing setup and input setup
+- timer.c/h : time tracking, delta time, FPS limiting, fixed timestep, used for animations
+- context.c/h : global engine state (renderer, input, etc.)
+
+systems/
+- render.c/h : rendering system for drawing sprites, tiles, etc. Abstract batching, immediate mode mechanisms
+- input.c/h : keyboard/mouse state tracking, event polling, input mapping
+- audio.c/h : immediate audio playback
+- camera.c/h : viewport control for scrolling/world movement, 2d transform, camera following mode
+- collision.c/h : AABB collision detection/resolution, physics, bounding volume
+- ui.c/h : UI rendering (static elements, overlays), scene agnostic UIs
+
+ecs/ : Entity-Component-System
+- entity.c/h : entity registry, unique IDs, pooling, sparse arrays
+- component.c/h : component composition/management and storage, SOA, Dynamic registration
+- system.c/h : system functions that operate on components, scheduling, update loops
+
+net/ : network handling for multiplayer
+- common.c/h : shared definitions for packet ids, utility structs, etc
+- packet.c/h : packet serialization and deserialization (endianness, buffer management, packet pooling)
+- transport.c/h : abstract UDP/TCP backend
+- server.c/h : server logic, listener for multiple clients
+- client.c/h : client logic, connection and reconnection
+
+resources/
+- texture.c/h : loads images into SDL_Textures, RAII in C, texture atlas, lazy loading
+- spritesheet.c/h : metadata for sprite frames (frame indexing), sprite animations
+- asset_manager.c/h : Caches and shares loaded assets, flyweight pattern
+- file_io.c/h
+
+game/ : game specific logic and standard utilization of of the engine for a game
+- game_state.c/h : global game state & scene managemen/transitions, state machine
+- scene_main.c/h : example scene (e.g. level, gameplay), scene graph
+- player.c/h : player logic input, movement, animation
+- enemy.c/h : AI logic, patrol, reactions
+- ui_overlay.c/h : in-game HUD: health, score, etc.
+- effects.c/h : visual effects, particles, flashes
+
+debug/
+- debug_draw.c/h : render debug shapes (AABB, paths, normals on collisions, etc.)
+- debug_config.c/h : system with imgui/sokol configuration for runtime modification of variables

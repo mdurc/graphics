@@ -25,8 +25,8 @@
 #define _ASSERT8(_e, ...) _ASSERTX(_e, #_e, __VA_ARGS__)
 #define ASSERT(...) DISPATCH_N(_ASSERT, __VA_ARGS__)
 
-#define ERROR_EXIT(...) fprintf(stderr, __VA_ARGS__); exit(1);
-#define ERROR_RETURN(...) fprintf(stderr, __VA_ARGS__); return 0;
+#define ERROR_EXIT(...) fprintf(stderr, __VA_ARGS__); exit(1)
+#define ERROR_RETURN(_R, ...) fprintf(stderr, __VA_ARGS__); return _R
 
 #define ARRLEN(_arr) ((sizeof((_arr))) / ((sizeof((_arr)[0]))))
 #define R_MASK 0x000000FF
